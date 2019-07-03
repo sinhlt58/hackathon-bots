@@ -28,9 +28,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/scss/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/material-dashboard/assets/js/core/jquery.min.js",
+              "./node_modules/material-dashboard/assets/js/core/popper.min.js",
+              "./node_modules/material-dashboard/assets/js/core/bootstrap-material-design.min.js",
+              "./node_modules/material-dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {

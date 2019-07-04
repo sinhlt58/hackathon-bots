@@ -23,26 +23,38 @@
   position: absolute;
   bottom: 2px;
   border-radius: 50%;
-
-  img {
-    height: 28px;
-    width: 28px;
-  }
+  height: 30px;
+  width: 30px;
 }
 
 .message {
   max-width: 70%;
   font-size: 18px;
   margin: 2px 0;
-  padding: .35rem .75rem;
-  border-radius: 1rem;
+  white-space: pre-wrap;
 }
 
 .message-bot {
   margin-left: 40px;
   clear: left;
   float: left;
-  background-color: $gray-200;
+
+  .message-text {
+    background-color: $gray-200;
+    padding: .35rem .75rem;
+    border-radius: 1rem;
+  }
+
+  .message-image {
+    img {
+      border: 1px solid $gray-200;
+      border-radius: 1rem;
+    }
+  }
+
+  .message-audio {
+    display: grid;
+  }
 }
 
 .message-me {
@@ -50,6 +62,8 @@
   float: right;
   background-color: $purple-400;
   color: white;
+  padding: .35rem .75rem;
+  border-radius: 1rem;
 }
 
 @keyframes record {

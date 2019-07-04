@@ -5,19 +5,35 @@
   <div #scrollChat class="card-body scroll-chatbot">
     <ng-container *ngFor="let message of messages">
       <div  class="chat-box clearfix">
-        <div *ngIf="!message.user_id" class="avartar-bot">
-          <img src="./assets/images/rabbit.png">
-        </div>
+        <img *ngIf="isBot(message)" class="avartar-bot" src="./assets/images/rabbit.jpg">
         <div  class="message" title="{{ message.datetime | date:'medium' }}"
-              [ngClass]="{ 'message-bot': !message.user_id, 'message-me': message.user_id }">
-          <span [innerHtml]="message.text"></span>
+              [ngClass]="classMessage(message)">
+
+          <div *ngIf="isText(message)" class="message-text" [innerHtml]="message.content"></div>
+
+          <div *ngIf="isButtons(message)" class="message-buttons">
+            <button *ngFor="let btn of message.content" class="btn btn-primary btn-round"
+                    (click)="clickButtonMessage(btn)">
+              {{btn}}
+            </button>
+          </div>
+
+          <div *ngIf="isImage(message)" class="message-image">
+            <img [src]="message.content">
+          </div>
+
+          <div *ngIf="isAudio(message)" class="message-audio">
+            <audio controls>
+              <source [src]="message.content" type="audio/mpeg">
+            </audio>
+          </div>
         </div>
       </div>
     </ng-container>
   </div>
   <div class="card-footer">
     <div class="input-group">
-      <input  [(ngModel)]="send_text" (keyup.enter)="sendMessage()"
+      <input  [(ngModel)]="send_text" (keyup.enter)="clickSendMessage()"
               type="text" class="form-control inputFileVisible" placeholder="Say something ...">
       <span class="input-group-btn">
           <button type="button" class="btn btn-fab btn-fab-mini btn-round" title="micro"
@@ -27,7 +43,7 @@
             <i class="fa fa-microphone"></i>
           </button>
           <button type="button" class="btn btn-primary btn-fab btn-link" title="send"
-                  (click)="sendMessage()">
+                  (click)="clickSendMessage()">
             <i class="material-icons">send</i>
           </button>
       </span>

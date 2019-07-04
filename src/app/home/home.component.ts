@@ -13,8 +13,11 @@ export class HomeComponent implements OnInit {
   @ViewChild('scrollChat', { static: true }) scrollContainer: ElementRef;
 
   messages = [
-    { text: "test", user_id: 123, datetime: new Date() },
-    { text: "test", datetime: new Date() }
+    { content: "test\ntext", user_id: 123, datetime: new Date(), type: "text" },
+    { content: "test\ntext", datetime: new Date(), type: "text" },
+    { content: ["abc", "xyz", "123"], datetime: new Date(), type: "buttons" },
+    { content: "https://cauhoi-api.sachmem.vn/api/media/doc_img/1RO-EmF3oqJcEuex9VSUnCdm1wa_z4egS8_P850SXLnc/1_1_1_0_1_bf4876fe.jpg", datetime: new Date(), type: "image" },
+    { content: "https://cauhoi-api.sachmem.vn/api/media/5a5f04e6bf44445f6bdc1f90.mp3", datetime: new Date(), type: "audio" }
   ]
 
   send_text = "";
@@ -41,20 +44,78 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  sendMessage() {
+  classMessage(message) {
+    return {
+      "message-bot"  : !message.user_id,
+      "message-me"   : message.user_id,
+    }
+  }
+
+  isBot(message) {
+    return !message.user_id;
+  }
+
+  isText(message) {
+    return message.type === "text";
+  }
+
+  isButtons(message) {
+    return message.type === "buttons";
+  }
+
+  isImage(message) {
+    return message.type === "image";
+  }
+
+  isAudio(message) {
+    return message.type === "audio";
+  }
+
+  clickButtonMessage(btn) {
+    this.sendMessage(btn);
+  }
+
+  clickSendMessage() {
     if (this.send_text) {
-      this.messages.push({ text: this.send_text, user_id: 123, datetime: new Date() });
-      this.botsService.chatBot({ text: this.send_text }).subscribe(res => {
-        console.log(res);
-        if (res.nlg) {
-          let nlg = res.nlg[0];
-          let time = new Date(res.timestamp * 1000)
-          this.messages.push({ text: nlg.text, datetime: time });
-          this.scrollToBottom();
-        }
-      })
+      this.sendMessage(this.send_text);
       this.send_text = "";
-      this.scrollToBottom();
+    }
+  }
+
+  sendMessage(text) {
+    this.messages.push({ content: text, user_id: 123, datetime: new Date(), type: "text" });
+    this.botsService.chatBot({ text: text }).subscribe(res => {
+      console.log(res);
+      if (res.nlg) {
+        let nlg = res.nlg;
+        let time = new Date(res.timestamp * 1000);
+        this.showBotMessage(nlg, time);
+        this.scrollToBottom();
+      }
+    })
+    this.scrollToBottom();
+  }
+
+  showBotMessage(nlg, time) {
+    for (let index = 0; index < nlg.length; index++) {
+      const message = nlg[index];
+      if (message.hasOwnProperty("text")) {
+        let content = message.text.trim();
+        content = content.replace(/\n+/g, "\n");
+        this.messages.push({ content: content, datetime: time, type: "text" });
+      }
+      if (message.hasOwnProperty("buttons")) {
+        let content = message.buttons;
+        this.messages.push({ content: content, datetime: time, type: "buttons" });
+      }
+      if (message.hasOwnProperty("image")) {
+        let content = message.image;
+        this.messages.push({ content: content, datetime: time, type: "image" });
+      }
+      if (message.hasOwnProperty("attachment")) {
+        let content = message.attachment;
+        this.messages.push({ content: content, datetime: time, type: "audio" });
+      }
     }
   }
 

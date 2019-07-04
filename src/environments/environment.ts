@@ -6,7 +6,9 @@ export const environment = {
   production: false
 };
 
-export const API_URL: string = "http://localhost:8000";
+export const API_URL: string = "http://localhost:8000/api/v1";
+
+export const BOT_NAME: string = "test_form";
 
 /*
  * For easier debugging in development mode, you can import the following file

@@ -1,10 +1,36 @@
 <div class="card">
   <div class="card-header card-header-primary">
-    Featured
+    Chatbot
   </div>
-  <div class="card-body">
-    <h4 class="card-title">Special title treatment</h4>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#0" class="btn btn-primary">Go somewhere</a>
+  <div #scrollChat class="card-body scroll-chatbot">
+    <ng-container *ngFor="let message of messages">
+      <div  class="chat-box clearfix">
+        <div *ngIf="!message.user_id" class="avartar-bot">
+          <img src="./assets/images/rabbit.png">
+        </div>
+        <div  class="message" title="{{ message.datetime | date:'medium' }}"
+              [ngClass]="{ 'message-bot': !message.user_id, 'message-me': message.user_id }">
+          <span [innerHtml]="message.text"></span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="card-footer">
+    <div class="input-group">
+      <input  [(ngModel)]="send_text" (keyup.enter)="sendMessage()"
+              type="text" class="form-control inputFileVisible" placeholder="Say something ...">
+      <span class="input-group-btn">
+          <button type="button" class="btn btn-fab btn-fab-mini btn-round" title="micro"
+                  [ngClass]="{ 'btn-primary recording': recording, 'btn-default btn-link': !recording }"
+                  [class.recording]="recording"
+                  (click)="record()">
+            <i class="fa fa-microphone"></i>
+          </button>
+          <button type="button" class="btn btn-primary btn-fab btn-link" title="send"
+                  (click)="sendMessage()">
+            <i class="material-icons">send</i>
+          </button>
+      </span>
+    </div>
   </div>
 </div>

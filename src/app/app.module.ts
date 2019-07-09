@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
+import { FacebookModule } from 'ngx-facebook';
 
 import { routing } from './app.routing';
 import { CoreModule } from './_core/core.module';
@@ -18,7 +19,8 @@ import { AboutComponent } from './about/about.component';
     routing,
     CoreModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    FacebookModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,4 +4,4 @@ export const environment = {
 
 export const API_URL: string = "https://botcuaban.com/api/v1";
 
-export const BOT_NAME: string = "test_form";
+export const BOT_NAME: string = "tho_trang";

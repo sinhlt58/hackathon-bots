@@ -24,7 +24,7 @@ pipeline {
 
     post {
         success {
-            mail to: 'khacdoi1995@gmail.com,sinhlt58@gmail.com',
+            emailext to: 'khacdoi1995@gmail.com,sinhlt58@gmail.com',
                 from: 'sinhlt58@gmail.com',
                 subject: "Success Pipeline: ${currentBuild.fullDisplayName}",
                 body: "Builed successfully with ${env.BUILD_URL}",
@@ -32,7 +32,7 @@ pipeline {
         }
 
         failure {
-            mail to: 'khacdoi1995@gmail.com,sinhlt58@gmail.com',
+            emailext to: 'khacdoi1995@gmail.com,sinhlt58@gmail.com',
                 from: 'sinhlt58@gmail.com',
                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
                 body: "Something is wrong with ${env.BUILD_URL}",

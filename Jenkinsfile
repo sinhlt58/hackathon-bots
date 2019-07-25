@@ -25,16 +25,18 @@ pipeline {
     post {
         success {
             mail to: 'khacdoi1995@gmail.com,sinhlt58@gmail.com',
-                from: 'jekins.botcuaban@gmail.com',
+                from: 'sinhlt58@gmail.com',
                 subject: "Success Pipeline: ${currentBuild.fullDisplayName}",
-                body: "${env.PROJECT_NAME} - Build # ${env.BUILD_NUMBER} - ${env.BUILD_STATUS}:\nBuiled successfully with ${env.BUILD_URL}"
+                body: "Builed successfully with ${env.BUILD_URL}",
+                attachLog: true
         }
 
         failure {
             mail to: 'khacdoi1995@gmail.com,sinhlt58@gmail.com',
-                from: 'jekins.botcuaban@gmail.com',
+                from: 'sinhlt58@gmail.com',
                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-                body: "${env.PROJECT_NAME} - Build # ${env.BUILD_NUMBER} - ${env.BUILD_STATUS}:\nSomething is wrong with ${env.BUILD_URL}"
+                body: "Something is wrong with ${env.BUILD_URL}",
+                attachLog: true
         }
     }
 }
